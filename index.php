@@ -63,11 +63,14 @@ switch ($view) {
 	case 'search-jobtitle' :
         $title='Search by Job Title';	
 		$content='searchbytitle.php';		
-		break;						
+		break;
+	case 'recommend' :
+		$title='Job Recommendations';
+		$content='recommend.php';
+		break;					
 	default :
 	    $active_home='active';
 	    $title="Home";	
 		$content ='home.php';		
 }
 require_once("theme/templates.php");
-?>
