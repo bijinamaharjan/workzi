@@ -1,33 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 4.9.0.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: May 23, 2021 at 05:07 AM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.9
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `erisdb`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tblapplicants`
---
-
+DROP DATABASE IF EXISTS `erisdb`;
+CREATE DATABASE IF NOT EXISTS `erisdb`;
+USE `erisdb`;
 CREATE TABLE `tblapplicants` (
   `APPLICANTID` int(11) NOT NULL,
   `FNAME` varchar(90) NOT NULL,
@@ -421,8 +394,17 @@ CREATE TABLE Views (
     view_id INT AUTO_INCREMENT PRIMARY KEY,
     applicant_id INT,
     job_id INT,
-    visit_count INT DEFAULT 0,
-    visit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_applicant FOREIGN KEY (applicant_id) REFERENCES YourApplicantTable(applicant_id),
-    CONSTRAINT fk_job FOREIGN KEY (job_id) REFERENCES YourJobTable(job_id)
+    visit_count INT DEFAULT 1,
+    FOREIGN KEY (applicant_id) REFERENCES tblapplicants (APPLICANTID),
+    FOREIGN KEY (job_id) REFERENCES tbljob (JOBID)
 );
+CREATE TABLE `Recommendations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `applicant_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `predicted_rating` double NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_applicant_id` (`applicant_id`),
+  INDEX `idx_job_id` (`job_id`),
+  INDEX `idx_predicted_rating` (`predicted_rating`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
